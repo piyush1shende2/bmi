@@ -1,0 +1,306 @@
+/* ===== .counter: the button-style element (for example a click counter) ===== */
+/* Applies to any element with class="counter" */
+.counter {
+  /* Text size: 16 pixels */
+  font-size: 16px;
+  /* Inner space: 5px above and below the text, 10px left and right */
+  padding: 5px 10px;
+  /* Slightly rounded corners */
+  border-radius: 5px;
+  /* Text colour comes from the CSS variable --accent (defined elsewhere, usually in index.css) */
+  color: var(--accent);
+  /* Background colour comes from the variable --accent-bg */
+  background: var(--accent-bg);
+  /* A 2px border that is invisible for now; it keeps the size steady so nothing jumps on hover */
+  border: 2px solid transparent;
+  /* When border-color changes, fade it over 0.3 seconds instead of switching instantly */
+  transition: border-color 0.3s;
+  /* Empty space of 24px below the element, pushing the next item down */
+  margin-bottom: 24px;
+
+  /* "&" means ".counter", so this is .counter:hover, applied while the mouse is over it */
+  &:hover {
+    /* The invisible border becomes visible in the --accent-border colour (the fade comes from the transition above) */
+    border-color: var(--accent-border);
+  }
+  /* .counter:focus-visible applies when focused by keyboard (Tab key), which helps keyboard users see where they are */
+  &:focus-visible {
+    /* Draw a 2px solid outline in the accent colour around the element */
+    outline: 2px solid var(--accent);
+    /* Move the outline 2px away from the element so it does not touch the border */
+    outline-offset: 2px;
+  }
+}
+
+/* ===== .hero: the logo area at the top (a base image with two smaller images stacked on it) ===== */
+/* Applies to any element with class="hero" */
+.hero {
+  /* Makes .hero the reference box for the absolutely positioned images inside it */
+  position: relative;
+
+  /* Nested selector: this applies to .base, .framework and .vite when they are inside .hero */
+  .base,
+  .framework,
+  .vite {
+    /* Left and right offsets are both 0, so with margin auto the item can be centred horizontally */
+    inset-inline: 0;
+    /* 0 above and below, auto left and right: horizontal centring */
+    margin: 0 auto;
+  }
+
+  /* The large background image inside .hero */
+  .base {
+    /* Fixed width of 170 pixels */
+    width: 170px;
+    /* Stays in normal page flow, so it also gives .hero its height */
+    position: relative;
+    /* Stacking level 0: the bottom layer */
+    z-index: 0;
+  }
+
+  /* Both small images are lifted out of normal flow so they can sit on top of .base */
+  .framework,
+  .vite {
+    /* Placed relative to .hero using the top value and centred by the inset / margin rules above */
+    position: absolute;
+  }
+
+  /* The first small image (the framework logo, for example React) */
+  .framework {
+    /* Stacking level 1: drawn above .base and .vite */
+    z-index: 1;
+    /* Sits 34px down from the top of .hero */
+    top: 34px;
+    /* Image height of 28px; the width follows automatically to keep its proportions */
+    height: 28px;
+    /* 3D tilt in four steps: perspective(2000px) gives depth; rotateZ(300deg) turns it flat on the screen; rotateX(44deg) and rotateY(39deg) tip it backwards and sideways; scale(1.4) makes it 40% larger. The line break after rotateY(39deg) does not change meaning */
+    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
+      scale(1.4);
+  }
+
+  /* The second small image (the Vite logo) */
+  .vite {
+    /* Stacking level 0: same layer as .base, so it sits below .framework */
+    z-index: 0;
+    /* Sits 107px down from the top of .hero, lower than .framework */
+    top: 107px;
+    /* Image height of 26px */
+    height: 26px;
+    /* Width is calculated from the height so the picture is not squashed */
+    width: auto;
+    /* Same style of 3D tilt as .framework, with rotateX(40deg) and a smaller scale(0.8) so it shrinks to 80% */
+    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
+      scale(0.8);
+  }
+}
+
+/* ===== #center: the middle section; "#" targets the one element with id="center" ===== */
+#center {
+  /* Flexbox layout: children are arranged in a row or column and are easy to align */
+  display: flex;
+  /* Stack the children top to bottom */
+  flex-direction: column;
+  /* 25px of space between children */
+  gap: 25px;
+  /* Centre the children along the main (vertical) direction */
+  place-content: center;
+  /* Centre the children across (horizontally) */
+  place-items: center;
+  /* Let this section grow to fill any spare space in its parent */
+  flex-grow: 1;
+
+  /* Rules inside apply only on screens up to 1024px wide (tablets and phones) */
+  @media (max-width: 1024px) {
+    /* Inner space: 32px top, 20px left and right, 24px bottom */
+    padding: 32px 20px 24px;
+    /* Tighter spacing of 18px between children on small screens */
+    gap: 18px;
+  }
+}
+
+/* ===== #next-steps: the row with the Docs and Social columns ===== */
+#next-steps {
+  /* Put the child columns side by side (a row is the default direction) */
+  display: flex;
+  /* A thin 1px line along the top, coloured by the --border variable */
+  border-top: 1px solid var(--border);
+  /* Text lines up to the left */
+  text-align: left;
+
+  /* "& > div" means direct child divs of #next-steps: the individual columns */
+  & > div {
+    /* flex: 1 1 0 means grow 1, shrink 1, start from 0 width, so every column gets equal width */
+    flex: 1 1 0;
+    /* 32px of inner space on all sides */
+    padding: 32px;
+    /* On screens up to 1024px wide: */
+    @media (max-width: 1024px) {
+      /* Less inner space: 24px above and below, 20px left and right */
+      padding: 24px 20px;
+    }
+  }
+
+  /* Small icons inside #next-steps */
+  .icon {
+    /* 16px of space under each icon, pushing the heading below it */
+    margin-bottom: 16px;
+    /* Icon width of 22px */
+    width: 22px;
+    /* Icon height of 22px */
+    height: 22px;
+  }
+
+  /* On screens up to 1024px wide, change the whole layout: */
+  @media (max-width: 1024px) {
+    /* Stack the columns vertically instead of side by side */
+    flex-direction: column;
+    /* Centre the text on small screens */
+    text-align: center;
+  }
+}
+
+/* ===== #docs: the first column (id="docs") ===== */
+#docs {
+  /* A 1px dividing line on its right edge, separating it from the next column */
+  border-right: 1px solid var(--border);
+
+  /* On screens up to 1024px wide, where columns are stacked: */
+  @media (max-width: 1024px) {
+    /* Remove the right-hand divider because the columns are no longer side by side */
+    border-right: none;
+    /* Add a divider on the bottom edge instead, between the stacked columns */
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+/* ===== The link lists (<ul>) inside #next-steps ===== */
+#next-steps ul {
+  /* Remove the default bullet points */
+  list-style: none;
+  /* Remove the default left indent of lists */
+  padding: 0;
+  /* Place the list items in a row */
+  display: flex;
+  /* 8px of space between items */
+  gap: 8px;
+  /* Margin shorthand: 32px on top, 0 on the sides, 0 below (clear space above the list) */
+  margin: 32px 0 0;
+
+  /* A logo image inside the list */
+  .logo {
+    /* Logo height of 18px */
+    height: 18px;
+  }
+
+  /* Each link in the list, styled as a small button */
+  a {
+    /* Text colour from the --text-h variable (heading colour) */
+    color: var(--text-h);
+    /* Text size: 16 pixels */
+    font-size: 16px;
+    /* Rounded corners of 6px */
+    border-radius: 6px;
+    /* Background colour from the --social-bg variable */
+    background: var(--social-bg);
+    /* Flex layout lets the icon and text sit side by side */
+    display: flex;
+    /* Inner space: 6px above and below, 12px left and right */
+    padding: 6px 12px;
+    /* Centre the icon and the text vertically with each other */
+    align-items: center;
+    /* 8px of space between the icon and the text */
+    gap: 8px;
+    /* Remove the default underline of links */
+    text-decoration: none;
+    /* When box-shadow changes, fade it in over 0.3 seconds */
+    transition: box-shadow 0.3s;
+
+    /* While the mouse is over the link: */
+    &:hover {
+      /* Add a shadow, defined by the --shadow variable, which gives a lifted look */
+      box-shadow: var(--shadow);
+    }
+    /* Icon inside the link */
+    .button-icon {
+      /* Icon height of 18px */
+      height: 18px;
+      /* Icon width of 18px */
+      width: 18px;
+    }
+  }
+
+  /* On screens up to 1024px wide: */
+  @media (max-width: 1024px) {
+    /* Less empty space above the list (20px instead of 32px) */
+    margin-top: 20px;
+    /* Let the items move onto a new line when they do not fit */
+    flex-wrap: wrap;
+    /* Centre the items in each row */
+    justify-content: center;
+
+    /* Each list item */
+    li {
+      /* Grow and shrink equally, starting at about half the row width minus 8px, which gives two items per row with a gap between */
+      flex: 1 1 calc(50% - 8px);
+    }
+
+    /* The links on small screens */
+    a {
+      /* Fill the whole width of the list item */
+      width: 100%;
+      /* Centre the icon and text inside the button */
+      justify-content: center;
+      /* Count padding and border inside the 100% width so the button does not overflow */
+      box-sizing: border-box;
+    }
+  }
+}
+
+/* ===== #spacer: an empty block that adds vertical space with a line on top ===== */
+#spacer {
+  /* Height of 88px */
+  height: 88px;
+  /* A thin 1px line on the top edge */
+  border-top: 1px solid var(--border);
+  /* On screens up to 1024px wide: */
+  @media (max-width: 1024px) {
+    /* Make the spacer shorter: 48px */
+    height: 48px;
+  }
+}
+
+/* ===== .ticks: the two little arrow marks at each end of a divider line ===== */
+.ticks {
+  /* Reference box for the absolutely positioned marks drawn below */
+  position: relative;
+  /* Take the full width of the parent so the marks sit at the far left and far right */
+  width: 100%;
+
+  /* ::before and ::after are extra elements created by CSS, with no HTML needed; this rule styles both */
+  &::before,
+  &::after {
+    /* An empty string is required for a ::before / ::after element to appear */
+    content: '';
+    /* Placed using top / left / right values relative to .ticks */
+    position: absolute;
+    /* Moves the mark up by 4.5px so it straddles the line */
+    top: -4.5px;
+    /* A 5px transparent border; later rules colour just one side to form a small triangle */
+    border: 5px solid transparent;
+  }
+
+  /* The left mark */
+  &::before {
+    /* Stick to the left edge */
+    left: 0;
+    /* Colour only the left side of the border, which makes a triangle pointing left */
+    border-left-color: var(--border);
+  }
+  /* The right mark */
+  &::after {
+    /* Stick to the right edge */
+    right: 0;
+    /* Colour only the right side of the border, which makes a triangle pointing right */
+    border-right-color: var(--border);
+  }
+}
